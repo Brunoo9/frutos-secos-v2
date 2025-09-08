@@ -1,4 +1,4 @@
-import { FaInstagram, FaTiktok, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -39,32 +39,23 @@ const Footer = () => {
 
             {/* TODO: COMPONETIZAR LOS "a" Y HACERLOS REUTILIZABLES*/}
             {/* Iconos de redes sociales */}
-            <div className="flex justify-center lg:justify-end space-x-3">
+            <div className="flex justify-center  space-x-3">
               {/* Instagram */}
               <a
-                href="#"
+                href="https://www.instagram.com/frutos.alvear/"
+                target="_blank"
                 className="w-12 h-12 rounded-full bg-brown-custom flex items-center justify-center hover:bg-orange-custom transition-colors duration-300"
                 aria-label="Seguir en Instagram"
               >
                 <FaInstagram className="w-6 h-6 text-white" />
               </a>
-
-              {/* TikTok */}
               <a
-                href="#"
+                target="_blank"
+                href="https://www.facebook.com/frutos.alvear/"
                 className="w-12 h-12 rounded-full bg-brown-custom flex items-center justify-center hover:bg-orange-custom transition-colors duration-300"
-                aria-label="Seguir en TikTok"
+                aria-label="Seguir en Facebook"
               >
-                <FaTiktok className="w-6 h-6 text-white" />
-              </a>
-
-              {/* X (Twitter) */}
-              <a
-                href="#"
-                className="w-12 h-12 rounded-full bg-brown-custom flex items-center justify-center hover:bg-orange-custom transition-colors duration-300"
-                aria-label="Seguir en X (Twitter)"
-              >
-                <FaTwitter className="w-6 h-6 text-white" />
+                <FaFacebook className="w-6 h-6 text-white" />
               </a>
             </div>
           </div>
