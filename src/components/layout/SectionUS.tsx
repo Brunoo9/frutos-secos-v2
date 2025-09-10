@@ -1,6 +1,9 @@
 const SectionUS = () => {
   return (
-    <section className="bg-cream py-12 md:py-16 lg:py-20 relative">
+    <section
+      className="bg-cream py-12 md:py-16 lg:py-20 relative"
+      id="sobre-nosotros"
+    >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Layout responsive: columna en móvil/tablet, fila en desktop */}
         <div className="flex flex-col lg:flex-row lg:justify-end lg:items-center gap-8 lg:gap-20">

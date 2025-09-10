@@ -60,7 +60,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
       return;
     }
     if (isEmpty) {
-      toast.error("Debe agregar productos al carritopara hacer el pedido.");
+      toast.error("Debe agregar productos al carrito para hacer el pedido.");
       return;
     }
 

@@ -13,6 +13,18 @@ const Navbar = () => {
     setIsCartOpen(!isCartOpen);
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    // Cerrar el menú móvil si está abierto
+    setIsMenuOpen(false);
+  };
+
   return (
     <nav className="flex  justify-between md:justify-center items-center px-4 py-4 mb-8 md:gap-16 relative">
       {/* Logo */}
@@ -22,18 +34,18 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center space-x-6 lg:space-x-12">
-        <a
-          href="#"
-          className="text-orange-500 font-medium hover:text-orange-600 transition-colors text-sm lg:text-base"
+        <button
+          onClick={() => scrollToSection("sobre-nosotros")}
+          className="text-orange-500 font-medium hover:text-orange-600 transition-colors text-sm lg:text-base cursor-pointer"
         >
           Sobre Nosotros
-        </a>
-        <a
-          href="#"
-          className="text-gray-700 font-medium hover:text-gray-800 transition-colors text-sm lg:text-base"
+        </button>
+        <button
+          onClick={() => scrollToSection("nuestros-productos")}
+          className="text-gray-700 font-medium hover:text-gray-800 transition-colors text-sm lg:text-base cursor-pointer"
         >
           Nuestros productos
-        </a>
+        </button>
       </div>
 
       {/* Cart Icon */}
@@ -90,20 +102,18 @@ const Navbar = () => {
         }}
       >
         <div className="px-4 py-4 space-y-4">
-          <a
-            href="#"
-            className="block text-orange-500 font-medium hover:text-orange-600 transition-colors py-2"
-            onClick={() => setIsMenuOpen(false)}
+          <button
+            onClick={() => scrollToSection("sobre-nosotros")}
+            className="block text-orange-500 font-medium hover:text-orange-600 transition-colors py-2 w-full text-left cursor-pointer"
           >
             Sobre Nosotros
-          </a>
-          <a
-            href="#"
-            className="block text-gray-700 font-medium hover:text-gray-800 transition-colors py-2"
-            onClick={() => setIsMenuOpen(false)}
+          </button>
+          <button
+            onClick={() => scrollToSection("nuestros-productos")}
+            className="block text-gray-700 font-medium hover:text-gray-800 transition-colors py-2 w-full text-left cursor-pointer"
           >
             Nuestros productos
-          </a>
+          </button>
         </div>
       </div>
 
