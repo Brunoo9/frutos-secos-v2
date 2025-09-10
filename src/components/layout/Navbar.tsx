@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CartModal from "../CartModal";
+import CartModal from "../Cart/CartModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

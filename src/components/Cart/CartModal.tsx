@@ -1,7 +1,10 @@
-import { useState } from "react";
-import { useCartStore } from "../store";
-import { paidMethods } from "../data/db";
-import { formatPrice } from "../utils/pricing";
+import { useState, useEffect } from "react";
+import { useCartStore } from "../../store";
+import { paidMethods } from "../../data/db";
+import { formatPrice } from "../../utils/pricing";
+import ActionsProductCart from "./ActionsProductCart";
+import { toast } from "sonner";
+import { Tooltip } from "react-tooltip";
 
 interface CartModalProps {
   isOpen: boolean;
@@ -12,9 +15,36 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   const [customerName, setCustomerName] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const cartItems = useCartStore((state) => state.cartItems);
-  const updateItem = useCartStore((state) => state.updateItem);
-  const removeItem = useCartStore((state) => state.removeItem);
   const clearCart = useCartStore((state) => state.clearCart);
+
+  // Prevenir scroll del body cuando el modal está abierto
+  useEffect(() => {
+    if (isOpen) {
+      // Guardar el scroll actual
+      const scrollY = window.scrollY;
+      // Bloquear el scroll
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      // Restaurar el scroll
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    }
+
+    // Cleanup function para restaurar el scroll cuando el componente se desmonte
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const total = cartItems.reduce(
@@ -24,7 +54,15 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   const isEmpty = cartItems.length === 0;
 
   const handleWhatsAppOrder = () => {
-    if (isEmpty || !customerName.trim()) return;
+    if (!customerName.trim()) {
+      console.log("No se puede hacer el pedido sin nombre");
+      toast.error("Debe ingresar un nombre para hacer el pedido.");
+      return;
+    }
+    if (isEmpty) {
+      toast.error("Debe agregar productos al carritopara hacer el pedido.");
+      return;
+    }
 
     const orderText = cartItems
       .map(
@@ -123,101 +161,28 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white border border-gray-200 rounded-lg p-3 flex items-center gap-3"
+                  className="bg-white border border-gray-200 rounded-lg p-3 flex flex-col gap-3"
                 >
                   {/* Product Image */}
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  </div>
-
-                  {/* Product Info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-black text-sm">
-                      {item.name}
-                    </h3>
-                    <p className="text-xs text-gray-600">{item.description}</p>
-                  </div>
-
-                  {/* Quantity Selector */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() =>
-                        updateItem(
-                          item.id.toString(),
-                          Math.max(1, item.quantity - 1)
-                        )
-                      }
-                      className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-                    >
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M20 12H4"
-                        />
-                      </svg>
-                    </button>
-                    <span className="w-8 text-center text-sm font-medium">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() =>
-                        updateItem(item.id.toString(), item.quantity + 1)
-                      }
-                      className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-                    >
-                      <svg
-                        className="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-
-                  {/* Price */}
-                  <div className="text-right">
-                    <p className="font-semibold text-black text-sm">
-                      ${formatPrice(item.price * item.quantity)}
-                    </p>
-                  </div>
-
-                  {/* Delete Button */}
-                  <button
-                    onClick={() => removeItem(item)}
-                    className="p-1 hover:bg-red-50 rounded-full transition-colors hover:cursor-pointer"
-                  >
-                    <svg
-                      className="w-4 h-4 text-red-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 flex  gap-3 ">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover rounded-lg"
                       />
-                    </svg>
-                  </button>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-black text-sm">
+                        {item.name} - {item.weight.toUpperCase()}
+                      </h3>
+                      <p className="text-xs text-gray-600">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <ActionsProductCart item={item} />
                 </div>
               ))}
             </div>
@@ -252,6 +217,14 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
         <div className="border-t border-gray-200 p-4">
           {/* Total */}
           <div className="flex justify-between items-center mb-4">
+            <Tooltip
+              id="clear-cart"
+              content={`${
+                isEmpty ? "No hay productos en el carrito." : "Vaciar carrito"
+              }`}
+              place="bottom"
+              offset={10}
+            />
             <button
               onClick={clearCart}
               disabled={isEmpty}
@@ -260,6 +233,10 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
                 isEmpty
                   ? "opacity-50 cursor-not-allowed"
                   : "opacity-100 cursor-pointer"
+              }`}
+              data-tooltip-id="clear-cart"
+              data-tooltip-content={`${
+                isEmpty ? "No hay productos en el carrito." : "Vaciar carrito"
               }`}
             >
               <svg
@@ -288,7 +265,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
           {/* WhatsApp Button */}
           <button
             onClick={handleWhatsAppOrder}
-            disabled={isEmpty || !customerName.trim()}
+            // disabled={isEmpty || !customerName.trim()}
             className={`w-full py-3 hover:cursor-pointer px-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all ${
               isEmpty || !customerName.trim()
                 ? "bg-gray-300 text-gray-500  cursor-not-allowed"

@@ -1,9 +1,10 @@
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import ProductList from "./components/Products/ProductList";
-import FloatingCartButton from "./components/FloatingCartButton";
 import SectionUS from "./components/layout/SectionUS";
 import SectionAbout from "./components/layout/SectionAbout";
+import { Toaster } from "sonner";
+import FloatingCartButton from "./components/Cart/FloatingCartButton";
 
 function App() {
   return (
@@ -58,6 +59,13 @@ function App() {
       <Footer />
 
       <FloatingCartButton />
+      <Toaster
+        expand={true}
+        richColors
+        position="top-right"
+        closeButton
+        visibleToasts={3}
+      />
     </>
   );
 }

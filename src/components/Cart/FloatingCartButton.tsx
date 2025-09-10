@@ -1,5 +1,5 @@
 import { FaShoppingCart } from "react-icons/fa";
-import { useCartStore } from "../store";
+import { useCartStore } from "../../store";
 import CartModal from "./CartModal";
 
 const FloatingCartButton = () => {
