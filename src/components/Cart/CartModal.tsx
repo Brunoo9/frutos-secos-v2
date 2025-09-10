@@ -5,6 +5,7 @@ import { formatPrice } from "../../utils/pricing";
 import ActionsProductCart from "./ActionsProductCart";
 import { toast } from "sonner";
 import { Tooltip } from "react-tooltip";
+import type { PaidMethod } from "../../types";
 
 interface CartModalProps {
   isOpen: boolean;
@@ -13,7 +14,8 @@ interface CartModalProps {
 
 const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   const [customerName, setCustomerName] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] =
+    useState<PaidMethod["name"]>("Transferencia");
   const cartItems = useCartStore((state) => state.cartItems);
   const clearCart = useCartStore((state) => state.clearCart);
 
@@ -131,10 +133,12 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
               </label>
               <select
                 value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
+                onChange={(e) =>
+                  setPaymentMethod(e.target.value as PaidMethod["name"])
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
               >
-                {paidMethods.map((method) => (
+                {paidMethods.map((method: PaidMethod) => (
                   <option key={method.id} value={method.id}>
                     {method.name}
                   </option>

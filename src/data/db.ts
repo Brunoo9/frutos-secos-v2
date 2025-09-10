@@ -1,4 +1,4 @@
-import type { Product } from "../types";
+import type { PaidMethod, Product } from "../types";
 
 export const products: Product[] = [
   // MIX FRUTOS SECOS
@@ -207,7 +207,7 @@ export const products: Product[] = [
   },
 ];
 
-export const paidMethods = [
+export const paidMethods: PaidMethod[] = [
   {
     id: "Transferencia",
     name: "Transferencia",

@@ -24,3 +24,8 @@ export const WEIGHT_PERCENTAGES = {
   "1kg": 1.0, // 100% del precio base (precio completo)
   "2kg": 1.8, // 180% del precio base (recargo del 80%)
 };
+
+export type PaidMethod = {
+  id: string;
+  name: "Transferencia" | "Efectivo";
+};
