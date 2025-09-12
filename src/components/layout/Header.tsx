@@ -1,6 +1,5 @@
-// import { products } from "../../data/db";
-// import ProductCard from "../Products/ProductCard";
 import Navbar from "./Navbar";
+import SectionMostChosen from "./SectionMostChosen";
 
 const Header = () => {
   return (
@@ -41,20 +40,7 @@ const Header = () => {
           </div>
         </section>
 
-        <div className=" ml-12 mt-16 md:mt-20 lg:mt-24 flex flex-col items-center justify-center px-4">
-          <h2 className="relative text-2xl md:text-3xl mb-6 font-semibold text-gray-800 ">
-            Los más elegidos
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 md:w-14 lg:w-16 h-1 bg-orange-custom rounded-full"></div>
-          </h2>
-
-          {/* <div className="relative w-[70%] h-[250px] bg-orange-500 rounded-4xl flex items-center justify-center">
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center flex-wrap">
-              <ProductCard product={products[3]} />
-              <ProductCard product={products[1]} />
-              <ProductCard product={products[5]} />
-            </div>
-          </div> */}
-        </div>
+        <SectionMostChosen />
       </div>
     </>
   );

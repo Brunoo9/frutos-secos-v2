@@ -49,7 +49,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center gap-2 ml-2">
             <input
               type="number"
-              min="1"
+              min={1}
+              max={10}
               value={quantity}
               onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
               className="w-14 border-2 border-gray-300 rounded-full px-2 py-1 text-center text-gray-600 focus:outline-none"
